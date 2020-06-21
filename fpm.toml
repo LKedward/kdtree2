@@ -1,0 +1,6 @@
+name = "kdtree2"
+author = "Matthew B. Kennel"
+license = "Academic Free License"
+
+[library]
+source-dir = "src"
