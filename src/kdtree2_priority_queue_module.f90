@@ -24,7 +24,7 @@ module kdtree2_priority_queue_module
   !
   type kdtree2_result
     ! a pair of distances, indexes
-    real(kdkind)    :: dis!=0.0
+    real(kdkind) :: dis!=0.0
     integer :: idx!=-1   Initializers cause some bugs in compilers.
   end type kdtree2_result
   !
@@ -88,9 +88,8 @@ contains
     !    allocate(x(1000),k(1000))
     !    pq => pq_create(x,k)
     !
-    type(kdtree2_result), target:: results_in(:)
+    type(kdtree2_result), target :: results_in(:)
     type(pq) :: res
-    !
     !
     integer :: nalloc
 
@@ -107,33 +106,28 @@ contains
   ! of elements in a binary heap.
   !
 
-!
-! These are written inline for speed.
-!
-!  integer function parent(i)
-!    integer, intent(in) :: i
-!    parent = (i/2)
-!    return
-!  end function parent
 
-!  integer function left(i)
-!    integer, intent(in) ::i
-!    left = (2*i)
-!    return
-!  end function left
+  ! These are written inline for speed.
 
-!  integer function right(i)
-!    integer, intent(in) :: i
-!    right = (2*i)+1
-!    return
-!  end function right
+  ! integer function parent(i)
+  !   integer, intent(in) :: i
+  !   parent = (i/2)
+  ! end function parent
 
-!  logical function compare_priority(p1,p2)
-!    real(kdkind), intent(in) :: p1, p2
-!
-!    compare_priority = (p1 .gt. p2)
-!    return
-!  end function compare_priority
+  ! integer function left(i)
+  !   integer, intent(in) ::i
+  !   left = (2*i)
+  ! end function left
+
+  ! integer function right(i)
+  !   integer, intent(in) :: i
+  !   right = (2*i)+1
+  ! end function right
+
+  ! logical function compare_priority(p1,p2)
+  !   real(kdkind), intent(in) :: p1, p2
+  !   compare_priority = (p1 .gt. p2)
+  ! end function compare_priority
 
   subroutine heapify(a, i_in)
     !
@@ -141,13 +135,11 @@ contains
     ! heap canonical form.   This is performance critical
     ! and has been tweaked a little to reflect this.
     !
-    type(pq), pointer   :: a
+    type(pq), intent(inout) :: a
     integer, intent(in) :: i_in
     !
     integer :: i, l, r, largest
-
-    real(kdkind)    :: pri_i, pri_l, pri_r, pri_largest
-
+    real(kdkind) :: pri_i, pri_l, pri_r, pri_largest
     type(kdtree2_result) :: temp
 
     i = i_in
@@ -215,10 +207,10 @@ contains
     ! on the queue, which should be the first one, if it is
     ! in heapified form.
     !
-    type(pq), pointer :: a
-    type(kdtree2_result), intent(out)  :: e
+    type(pq), intent(in) :: a
+    type(kdtree2_result), intent(out) :: e
 
-    if (a%heap_size .gt. 0) then
+    if (a%heap_size > 0) then
       e = a%elems(1)
     else
       write (*, *) 'PQ_MAX: ERROR, heap_size < 1'
@@ -227,9 +219,9 @@ contains
   end subroutine pq_max
 
   real(kdkind) function pq_maxpri(a)
-    type(pq), pointer :: a
+    type(pq), intent(in) :: a
 
-    if (a%heap_size .gt. 0) then
+    if (a%heap_size > 0) then
       pq_maxpri = a%elems(1)%dis
     else
       write (*, *) 'PQ_MAX_PRI: ERROR, heapsize < 1'
@@ -243,7 +235,7 @@ contains
     ! element, and remove it from the queue.
     ! (equivalent to 'pop()' on a stack)
     !
-    type(pq), pointer :: a
+    type(pq), intent(inout) :: a
     type(kdtree2_result), intent(out) :: e
 
     if (a%heap_size .ge. 1) then
@@ -270,7 +262,7 @@ contains
     ! Insert a new element and return the new maximum priority,
     ! which may or may not be the same as the old maximum priority.
     !
-    type(pq), pointer  :: a
+    type(pq), intent(inout) :: a
     real(kdkind), intent(in) :: dis
     integer, intent(in) :: idx
     !    type(kdtree2_result), intent(in) :: e
@@ -309,7 +301,7 @@ contains
   end function pq_insert
 
   subroutine pq_adjust_heap(a, i)
-    type(pq), pointer  :: a
+    type(pq), intent(inout) :: a
     integer, intent(in) :: i
     !
     ! nominally arguments (a,i), but specialize for a=1
@@ -355,7 +347,7 @@ contains
     ! the new maximum priority, which may be larger
     ! or smaller than the old one.
     !
-    type(pq), pointer         :: a
+    type(pq), intent(inout) :: a
     real(kdkind), intent(in) :: dis
     integer, intent(in) :: idx
 !    type(kdtree2_result), intent(in) :: e
@@ -422,8 +414,8 @@ contains
     !
     ! delete item with index 'i'
     !
-    type(pq), pointer :: a
-    integer           :: i
+    type(pq), intent(inout) :: a
+    integer, intent(in) :: i
 
     if ((i .lt. 1) .or. (i .gt. a%heap_size)) then
       write (*, *) 'PQ_DELETE: error, attempt to remove out of bounds element.'
