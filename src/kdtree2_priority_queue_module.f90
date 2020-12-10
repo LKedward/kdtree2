@@ -5,7 +5,18 @@
 ! with additional provisions found in that same file.
 !
 module kdtree2_priority_queue_module
+
   use kdtree2_precision_module
+  implicit none
+  private
+  
+  public :: kdtree2_result
+
+  public :: pq
+  public :: pq_create
+  public :: pq_delete, pq_insert
+  public :: pq_extract_max, pq_max, pq_replace_max, pq_maxpri
+  
   !
   ! maintain a priority queue (PQ) of data, pairs of 'priority/payload', 
   ! implemented with a binary heap.  This is the type, and the 'dis' field
@@ -61,13 +72,7 @@ module kdtree2_priority_queue_module
       type(kdtree2_result), pointer :: elems(:) 
   end type pq
 
-  public :: kdtree2_result
 
-  public :: pq
-  public :: pq_create
-  public :: pq_delete, pq_insert
-  public :: pq_extract_max, pq_max, pq_replace_max, pq_maxpri
-  private
 
 contains
 
@@ -146,7 +151,6 @@ contains
     integer :: i, l, r, largest
 
     real(kdkind)    :: pri_i, pri_l, pri_r, pri_largest
-
 
     type(kdtree2_result) :: temp
 

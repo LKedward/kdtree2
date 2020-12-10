@@ -6,21 +6,21 @@
 !
 module kdtree2_precision_module
   
-  integer, parameter :: sp = kind(0.0)
+  implicit none
+  private
+
+  public :: kdkind
+
+  integer, parameter :: sp = kind(0.0e0)
   integer, parameter :: dp = kind(0.0d0)
 
-  private :: sp, dp
-
-  !
   ! You must comment out exactly one
   ! of the two lines.  If you comment
   ! out kdkind = sp then you get single precision
   ! and if you comment out kdkind = dp 
   ! you get double precision.
   !
-
   integer, parameter :: kdkind = sp  
   !integer, parameter :: kdkind = dp  
-  public :: kdkind
 
 end module kdtree2_precision_module

@@ -5,8 +5,12 @@
 ! with additional provisions found in that same file.
 !
 module kdtree2_module
+
   use kdtree2_precision_module
   use kdtree2_priority_queue_module
+  implicit none
+  private
+
   ! K-D tree routines in Fortran 90 by Matt Kennel.
   ! Original program was written in Sather by Steve Omohundro and
   ! Matt Kennel.  Only the Euclidean metric is supported. 
@@ -128,9 +132,6 @@ module kdtree2_module
       real(kdkind), pointer :: data(:,:)  ! temp pointer to data
       integer, pointer      :: ind(:)     ! temp pointer to indexes
   end type tree_search_record
-
-  private
-  ! everything else is private.
 
   type(tree_search_record), save, target :: sr   ! A GLOBAL VARIABLE for search
 
