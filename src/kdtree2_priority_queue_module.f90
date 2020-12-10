@@ -100,7 +100,6 @@ contains
     end if
     res%elems => results_in
     res%heap_size = 0
-    return
   end function pq_create
 
   !
@@ -208,7 +207,6 @@ contains
         return   ! break from the loop
       end if
     end do bigloop
-    return
   end subroutine heapify
 
   subroutine pq_max(a, e)
@@ -226,7 +224,6 @@ contains
       write (*, *) 'PQ_MAX: ERROR, heap_size < 1'
       stop
     end if
-    return
   end subroutine pq_max
 
   real(kdkind) function pq_maxpri(a)
@@ -238,7 +235,6 @@ contains
       write (*, *) 'PQ_MAX_PRI: ERROR, heapsize < 1'
       stop
     end if
-    return
   end function pq_maxpri
 
   subroutine pq_extract_max(a, e)
@@ -262,7 +258,6 @@ contains
       a%elems(1) = a%elems(a%heap_size)
       a%heap_size = a%heap_size - 1
       call heapify(a, 1)
-      return
     else
       write (*, *) 'PQ_EXTRACT_MAX: error, attempted to pop non-positive PQ'
       stop
@@ -309,7 +304,6 @@ contains
     a%elems(i)%idx = idx
 
     pq_insert = a%elems(1)%dis
-    return
     !    end if
 
   end function pq_insert
@@ -351,7 +345,7 @@ contains
       end if
     end do
     a%elems(parent) = e
-    return
+
   end subroutine pq_adjust_heap
 
   real(kdkind) function pq_replace_max(a, dis, idx)
@@ -422,7 +416,6 @@ contains
       etmp%idx = idx
       pq_replace_max = pq_insert(a, dis, idx)
     end if
-    return
   end function pq_replace_max
 
   subroutine pq_delete(a, i)
