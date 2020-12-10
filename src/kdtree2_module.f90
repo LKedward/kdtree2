@@ -369,8 +369,7 @@ contains
     end if
   end function build_tree_for_range
 
-  integer function select_on_coordinate_value(v, ind, c, alpha, li, ui) &
-    result(res)
+  integer function select_on_coordinate_value(v, ind, c, alpha, li, ui) result(res)
     ! Move elts of ind around between l and u, so that all points
     ! <= than alpha (in c cooordinate) are first, and then
     ! all points > alpha are second.
@@ -391,10 +390,11 @@ contains
     integer, intent(In) :: c, li, ui
     real(kdkind), intent(in) :: alpha
     ! ..
-    real(kdkind) :: v(1:, 1:)
-    integer :: ind(1:)
+    ! .. Array arguments ..
+    real(kdkind) , intent(in) :: v(1:,1:)
+    integer, intent(inout) :: ind(1:)
+
     integer :: tmp
-    ! ..
     integer :: lb, rb
     !
     ! The points known to be <= alpha are in
@@ -408,7 +408,8 @@ contains
     ! we are done.  We return the location of the last point <= alpha.
     !
     !
-    lb = li; rb = ui
+    lb = li
+    rb = ui
 
     do while (lb < rb)
       if (v(c, ind(lb)) <= alpha) then
@@ -416,7 +417,9 @@ contains
         lb = lb + 1
       else
         ! swap it with rb.
-        tmp = ind(lb); ind(lb) = ind(rb); ind(rb) = tmp
+        tmp = ind(lb)
+        ind(lb) = ind(rb)
+        ind(rb) = tmp
         rb = rb - 1
       end if
     end do
