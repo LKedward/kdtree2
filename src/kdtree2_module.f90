@@ -989,28 +989,25 @@ contains
     ! for all coordinates outside the box.   Coordinates inside the box
     ! contribute nothing to the distance.
     !
-    type(tree_node), pointer :: node
-    type(tree_search_record), pointer :: sr
+    type(tree_node), intent(in) :: node
+    type(tree_search_record), intent(in) :: sr
 
-    integer :: dimen, i
-    real(kdkind)    :: dis, ballsize
-    real(kdkind)    :: l, u
+    integer ::  i
+    real(kdkind) :: dis, l, u
 
-    dimen = sr%dimen
-    ballsize = sr%ballsize
-    dis = 0.0
-    res = .true.
-    do i = 1, dimen
-      l = node%box(i)%lower
-      u = node%box(i)%upper
-      dis = dis + (dis2_from_bnd(sr%qv(i), l, u))
-      if (dis > ballsize) then
-        res = .false.
-        return
-      end if
-    end do
-    res = .true.
-    return
+    associate(dimen => sr%dimen, ballsize => sr%ballsize)
+      dis = 0.0_kdkind
+      res = .true.
+      do i = 1, dimen
+        l = node%box(i)%lower
+        u = node%box(i)%upper
+        dis = dis + dis2_from_bnd(sr%qv(i), l, u)
+        if (dis > ballsize) then
+          res = .false.
+          return
+        end if
+      end do
+    end associate
   end function box_in_search_range
 
   subroutine process_terminal_node(node)
