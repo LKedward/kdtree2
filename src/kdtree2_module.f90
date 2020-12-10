@@ -982,7 +982,7 @@ contains
     end if
   end function dis2_from_bnd
 
-  logical function box_in_search_range(node, sr) result(res)
+  pure logical function box_in_search_range(node, sr) result(res)
     !
     ! Return the distance from 'qv' to the CLOSEST corner of node's
     ! bounding box
