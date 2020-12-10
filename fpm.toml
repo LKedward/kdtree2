@@ -4,3 +4,13 @@ license = "Academic Free License"
 
 [library]
 source-dir = "src"
+
+[[test]]
+name = "kdtree2_benchmark"
+source-dir = "tests"
+main = "kdtree2_benchmark.f90"
+
+[[test]]
+name = "kdtree2_test"
+source-dir = "tests"
+main = "kdtree2_test.f90"
