@@ -876,20 +876,18 @@ contains
     return
   end subroutine validate_query_storage
 
-  function square_distance(d, iv, qv) result(res)
+  pure function square_distance(d, iv, qv) result(res)
     ! distance between iv[1:n] and qv[1:n]
     ! .. Function Return Value ..
     ! re-implemented to improve vectorization.
     real(kdkind) :: res
     ! ..
-    ! ..
     ! .. Scalar Arguments ..
-    integer :: d
+    integer, intent(in) :: d
     ! ..
     ! .. Array Arguments ..
-    real(kdkind) :: iv(:), qv(:)
-    ! ..
-    ! ..
+    real(kdkind), intent(in) :: iv(:), qv(:)
+
     res = sum((iv(1:d) - qv(1:d))**2)
   end function square_distance
 
@@ -969,22 +967,19 @@ contains
     end if
   end subroutine search
 
-  real(kdkind) function dis2_from_bnd(x, amin, amax) result(res)
+  pure function dis2_from_bnd(x, amin, amax) result(res)
     real(kdkind), intent(in) :: x, amin, amax
+    real(kdkind) :: res
 
     if (x > amax) then
-      res = (x - amax)**2; 
-      return
+      res = (x - amax)**2
     else
       if (x < amin) then
-        res = (amin - x)**2; 
-        return
+        res = (amin - x)**2
       else
-        res = 0.0
-        return
+        res = 0.0_kdkind
       end if
     end if
-    return
   end function dis2_from_bnd
 
   logical function box_in_search_range(node, sr) result(res)
