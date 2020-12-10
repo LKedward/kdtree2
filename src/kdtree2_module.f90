@@ -195,17 +195,21 @@ contains
 
     call build_tree(mr)
 
+    ! TODO: use optval from stdlib
+    ! mr%sort = optval(sort,.false.)
     if (present(sort)) then
        mr%sort = sort
     else
        mr%sort = .false.
-    endif
+    end if
 
+    ! TODO: use optval from stdlib
+    ! mr%rearrange = optval(rearrange,.true.)
     if (present(rearrange)) then
        mr%rearrange = rearrange
     else
        mr%rearrange = .true.
-    endif
+    end if
 
     if (mr%rearrange) then
        allocate(mr%rearranged_data(mr%dimen,mr%n))
@@ -215,7 +219,7 @@ contains
        enddo
     else
        nullify(mr%rearranged_data)
-    endif
+    end if
 
   end function kdtree2_create
 
@@ -1321,56 +1325,49 @@ contains
     ! 
     ! If ind(k) = k upon input, then it will give a sort index upon output.
     !
-    integer,intent(in)          :: n
-    real(kdkind), intent(inout)         :: a(:) 
-    integer, intent(inout)      :: ind(:)
+    integer, intent(in) :: n
+    real(kdkind), intent(inout) :: a(:) 
+    integer, intent(inout) :: ind(:)
 
-    !
-    !
-    real(kdkind)        :: value   ! temporary for a value from a()
-    integer     :: ivalue  ! temporary for a value from ind()
+    real(kdkind) :: value   ! temporary for a value from a()
+    integer :: ivalue  ! temporary for a value from ind()
 
-    integer     :: i,j
-    integer     :: ileft,iright
+    integer :: i,j
+    integer :: ileft,iright
 
-    ileft=n/2+1
-    iright=n
+    ileft = n/2 + 1
+    iright = n
 
-    !    do i=1,n
-    !       ind(i)=i
-    ! Generate initial idum array
-    !    end do
-
-    if(n.eq.1) return                  
+    if (n .eq. 1) return                  
 
     do 
-       if(ileft > 1)then
-          ileft=ileft-1
-          value=a(ileft); ivalue=ind(ileft)
-       else
-          value=a(iright); ivalue=ind(iright)
-          a(iright)=a(1); ind(iright)=ind(1)
-          iright=iright-1
-          if (iright == 1) then
-             a(1)=value;ind(1)=ivalue
-             return
-          endif
-       endif
-       i=ileft
-       j=2*ileft
-       do while (j <= iright) 
-          if(j < iright) then
-             if(a(j) < a(j+1)) j=j+1
-          endif
-          if(value < a(j)) then
-             a(i)=a(j); ind(i)=ind(j)
-             i=j
-             j=j+j
-          else
-             j=iright+1
-          endif
-       end do
-       a(i)=value; ind(i)=ivalue
+      if (ileft > 1) then
+        ileft = ileft-1
+        value = a(ileft); ivalue = ind(ileft)
+      else
+        value = a(iright); ivalue = ind(iright)
+        a(iright) = a(1); ind(iright) = ind(1)
+        iright = iright-1
+        if (iright == 1) then
+           a(1) = value; ind(1)=ivalue
+           return
+        end if
+      end if
+      i = ileft
+      j = 2*ileft
+      do while (j <= iright) 
+        if (j < iright) then
+          if (a(j) < a(j+1)) j = j+1
+        end if
+        if (value < a(j)) then
+          a(i) = a(j); ind(i) = ind(j)
+          i = j
+          j = j + j
+        else
+          j = iright + 1
+        end if
+      end do
+      a(i) = value; ind(i) = ivalue
     end do
   end subroutine heapsort
 
@@ -1378,55 +1375,47 @@ contains
     !
     ! Sort a(1:n) in ascending order
     ! 
-    !
-    integer,intent(in)                 :: n
-    type(kdtree2_result),intent(inout) :: a(:)
+    integer, intent(in) :: n
+    type(kdtree2_result), intent(inout) :: a(:)
 
-    !
-    !
     type(kdtree2_result) :: value ! temporary value
 
-    integer     :: i,j
-    integer     :: ileft,iright
+    integer :: i, j
+    integer :: ileft, iright
 
-    ileft=n/2+1
-    iright=n
+    ileft = n/2 + 1
+    iright = n
 
-    !    do i=1,n
-    !       ind(i)=i
-    ! Generate initial idum array
-    !    end do
-
-    if(n.eq.1) return                  
+    if (n .eq. 1) return                  
 
     do 
-       if(ileft > 1)then
-          ileft=ileft-1
-          value=a(ileft)
-       else
-          value=a(iright)
-          a(iright)=a(1)
-          iright=iright-1
-          if (iright == 1) then
-             a(1) = value
-             return
-          endif
-       endif
-       i=ileft
-       j=2*ileft
-       do while (j <= iright) 
-          if(j < iright) then
-             if(a(j)%dis < a(j+1)%dis) j=j+1
-          endif
-          if(value%dis < a(j)%dis) then
-             a(i)=a(j); 
-             i=j
-             j=j+j
-          else
-             j=iright+1
-          endif
-       end do
-       a(i)=value
+      if (ileft > 1) then
+        ileft = ileft-1
+        value = a(ileft)
+      else
+        value = a(iright)
+        a(iright) = a(1)
+        iright = iright-1
+        if (iright == 1) then
+          a(1) = value
+          return
+        end if
+      end if
+      i = ileft
+      j = 2*ileft
+      do while (j <= iright) 
+        if(j < iright) then
+           if (a(j)%dis < a(j+1)%dis) j = j + 1
+        end if
+        if (value%dis < a(j)%dis) then
+          a(i) = a(j); 
+          i = j
+          j = j + j
+        else
+          j = iright + 1
+        end if
+      end do
+      a(i) = value
     end do
   end subroutine heapsort_struct
 
