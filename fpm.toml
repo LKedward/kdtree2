@@ -1,6 +1,8 @@
 name = "kdtree2"
 author = "Matthew B. Kennel"
-license = "Academic Free License"
+license = "AFL-1.1"
+copyright = "Copyright 2004 Matthew Kennel, Institute for Nonlinear Science"
+maintainer = "ivan.pribec@gmail.com"
 
 [library]
 source-dir = "src"
