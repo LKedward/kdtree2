@@ -10,7 +10,13 @@ program kdtree_benchmark
   integer, parameter :: m(3) = [3, 8, 16]
   integer, parameter :: n = 10000, r = 1000
   integer :: idxs(r), idx
-  integer :: i
+  integer :: i, s
+  integer, allocatable :: seed(:)
+
+  call random_seed(size=s)
+  allocate(seed(s))
+  seed = 1234
+  call random_seed(put=seed)
 
   do i = 1, 3
 
