@@ -226,10 +226,10 @@ contains
     integer :: j
     type(tree_node), pointer :: dummy => null()
     ! ..
-    allocate (tp%ind(tp%n))
-    forall (j=1:tp%n)
+    allocate(tp%ind(tp%n))
+    do concurrent (j = 1:tp%n)
       tp%ind(j) = j
-    end forall
+    end do concurrent
     tp%root => build_tree_for_range(tp, 1, tp%n, dummy)
   end subroutine build_tree
 
