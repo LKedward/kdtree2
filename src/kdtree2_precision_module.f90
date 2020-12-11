@@ -5,7 +5,7 @@
 ! with additional provisions found in that same file.
 !
 module kdtree2_precision_module
-  
+
   implicit none
   private
 
@@ -17,10 +17,10 @@ module kdtree2_precision_module
   ! You must comment out exactly one
   ! of the two lines.  If you comment
   ! out kdkind = sp then you get single precision
-  ! and if you comment out kdkind = dp 
+  ! and if you comment out kdkind = dp
   ! you get double precision.
   !
-  integer, parameter :: kdkind = sp  
-  !integer, parameter :: kdkind = dp  
+  integer, parameter :: kdkind = sp
+  !integer, parameter :: kdkind = dp
 
 end module kdtree2_precision_module
