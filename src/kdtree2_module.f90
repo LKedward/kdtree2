@@ -229,7 +229,7 @@ contains
     allocate(tp%ind(tp%n))
     do concurrent (j = 1:tp%n)
       tp%ind(j) = j
-    end do concurrent
+    end do
     tp%root => build_tree_for_range(tp, 1, tp%n, dummy)
   end subroutine build_tree
 
